@@ -3,7 +3,7 @@
 # @Date:   2017-02-10 10:40:08
 # @Last Modified by:   Wang
 # @Last Modified time: 2017-02-10 10:40:44
-from flask import Flask, jsonify
+from flask import Flask
 
 from Sqlhelper import *
 import CrawlerThread

@@ -6,15 +6,19 @@
 
 import requests
 from Sqlhelper import *
+import logging
+import logging.config
 
 
 class Validator(object):
-
     def __init__(self):
         self.validate_url = config.VOLIDATE_URL
         self.protocol = config.PROTOCOL
         self.timeout = config.TIME_OUT
         self.sqlhelper = Sqlhelper()
+        logging.config.fileConfig('log/logger.conf')
+        self.logger = logging.getLogger('Validator')
+
         # print self.validate_url
         # print self.protocol
         # print self.timeout
@@ -32,7 +36,7 @@ class Validator(object):
             r = requests.get(self.validate_url, proxies=proxies, timeout=self.timeout)
             status = r.status_code
         except Exception, e:
-            print e.message
+            self.logger.error(e.message)
             return status == 200
         return status == 200
 
@@ -43,10 +47,10 @@ class Validator(object):
         :return:true or false
         '''
         if (self.validate(proxy)):
-            print proxy, "有效"
+            self.logger.info(proxy + u"有效")
             self.sqlhelper.insertProxy(proxy)
         else:
-            print proxy, "无效"
+            self.logger.warning(proxy + u"无效")
 
     def valDelProxyfromSql(self, proxy):
         '''

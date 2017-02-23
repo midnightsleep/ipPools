@@ -7,12 +7,16 @@
 import requests
 from bs4 import BeautifulSoup
 from Sqlhelper import *
+import logging
+import logging.config
 
 
 class XiciIpCrawler(object):
 
     def __init__(self):
         self.url = "http://www.xicidaili.com/nn/"
+        logging.config.fileConfig("log/logger.conf")
+        self.logger = logging.getLogger("XiciIpCrawler")
 
     def runCrawler(self):
         l = []
@@ -28,7 +32,6 @@ class XiciIpCrawler(object):
             proxy = proxy.encode('utf-8')
             # print proxy
             l.append(proxy)
-        print l
-        print "xici crawler over!"
+        self.logger.info("xici proxy size is " + len(l).__str__())
         # 返回该爬虫爬取的list
         return l

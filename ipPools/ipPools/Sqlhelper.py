@@ -6,6 +6,8 @@
 
 import sqlite3
 import config
+import logging
+import logging.config
 
 
 class Sqlhelper(object):
@@ -19,6 +21,8 @@ class Sqlhelper(object):
         self.cursor = self.con.cursor()
         # 创建表结构
         self.createTable()
+        logging.config.fileConfig("log/logger.conf")
+        self.logger = logging.getLogger("Sqlhelper")
 
     def createTable(self):
         '''
@@ -60,8 +64,11 @@ class Sqlhelper(object):
         try:
             self.cursor.execute('INSERT INTO '+self.tableName+' VALUES (null,?)', (proxy,))
         except Exception, e:
-            print e.message
-        self.con.commit()
+            self.logger.error(e.message)
+        try:
+            self.con.commit()
+        except Exception, e:
+            self.logger.error(e.message)
 
     def getCount(self):
         '''
@@ -89,7 +96,7 @@ class Sqlhelper(object):
         try:
             self.cursor.execute(del_proxy_sql)
         except Exception, e:
-            print e.message
+            self.logger.error(e.message)
             return False
         self.con.commit()
         return True

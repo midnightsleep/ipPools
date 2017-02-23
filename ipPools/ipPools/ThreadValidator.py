@@ -4,14 +4,15 @@
 # @Last Modified by:   Wang
 # @Last Modified time: 2017-02-10 10:40:44
 import threadpool
-import validator
+import Validator
 from Sqlhelper import *
+import ThreadStatus
 
 
 class ThreadValidator(object):
     def __init__(self):
         self.thread_num = config.VOLIDATE_NUM
-        self.v = validator.Validator()
+        self.v = Validator.Validator()
 
     def validatelist(self, list):
         '''
@@ -24,6 +25,8 @@ class ThreadValidator(object):
         requests = threadpool.makeRequests(self.v.valInsertProxytoSql, list)
         [pool.putRequest(req) for req in requests]
         pool.wait()
+        # 验证采集的代理的线程结束
+        ThreadStatus.isCrawlerThread = False
 
     def validatesql(self, list):
         '''
@@ -35,3 +38,5 @@ class ThreadValidator(object):
         requests = threadpool.makeRequests(self.v.valDelProxyfromSql, list)
         [pool.putRequest(req) for req in requests]
         pool.wait()
+        # 验证数据库里的代理的线程结束
+        ThreadStatus.isUpdateThread = False

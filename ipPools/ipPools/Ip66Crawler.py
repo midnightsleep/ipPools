@@ -7,11 +7,15 @@
 import requests
 import re
 from Sqlhelper import *
+import logging
+import logging.config
 
 
 class Ip66Crawler(object):
     def __init__(self):
         self.url = "http://www.66ip.cn/nmtq.php?getnum=5500&isp=0&anonymoustype=0&start=&ports=&export=&ipaddress=&area=0&proxytype=2&api=66ip"
+        logging.config.fileConfig('log/logger.conf')
+        self.logger = logging.getLogger('Ip66Crawler')
 
     def runCrawler(self):
         l = []
@@ -21,7 +25,6 @@ class Ip66Crawler(object):
         for proxy in reip.findall(html):
             proxy = proxy.encode('utf-8')
             l.append(proxy)
-        print l
-        print "66ip crawler over!"
+        self.logger.info("66Ip proxy size is " + len(l).__str__())
         # 返回该爬虫爬取的list
         return l

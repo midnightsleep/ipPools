@@ -16,14 +16,14 @@ DB_CONFIG = {
 # api的请求端口
 API_PORT = 20031
 # 代理有效检验时间(分钟)
-# 表示每30分钟检验一次代理是否有效，无效的从数据库中剔除
-UPDATA_TIME = 30
+# 表示每5分钟检验一次代理是否有效，无效的从数据库中剔除
+UPDATA_TIME = 5
 # 检验代理开启的线程数
 VOLIDATE_NUM = 10
 # 采集代理的时间间隔(秒)
-CRAWLER_TIME = 7200
+CRAWLER_TIME = 600
 # 用来验证代理是否可用的url
-VOLIDATE_URL = "http://www.sogou.com"
+VOLIDATE_URL = "http://www.15yan.com"
 # 连接的超时
 TIME_OUT = 6
 # 代理的协议
